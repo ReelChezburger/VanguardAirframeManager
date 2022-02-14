@@ -1,5 +1,4 @@
 #include "cMain.h"
-#include <wx/file.h>
 
 cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Vanguard Airframe Manager")
 {
@@ -89,11 +88,44 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Vanguard Airframe Manager")
 	this->SetSizerAndFit(verticalSizer);
 
 	//checks config file
-	if (!wxFile::Exists("VAM.cfg")) {
-		//wxFile::Create("VAM.cfg");
-	}
+	readConfig();
 }
 
 cMain::~cMain()
 {
+}
+
+void cMain::firstBoot() 
+{
+	wxMessageBox(wxT("It appears that this is the first time you are running this program.\nPlease set your X-Plane location under the \"X-Plane Location\" window."),
+		wxT("First Boot"), wxOK | wxCENTRE | wxSTAY_ON_TOP, this);
+}
+
+void cMain::pathNotSet()
+{
+	wxMessageBox(wxT("Please set your X-Plane location under the \"X-Plane Location\" window."),
+		wxT("Path Not Set"), wxOK | wxCENTRE | wxSTAY_ON_TOP, this);
+}
+
+void cMain::readConfig()
+{
+	if (!wxDir::Exists(configDir))
+	{
+		wxFileName::Mkdir(configDir);
+	}
+	wxString pathValue;
+	wxFileConfig* ConfigINI = new wxFileConfig("Vanguard Airframe Manager", wxEmptyString, configPath);
+	if (ConfigINI->wxConfigBase::Read("path", &pathValue))
+	{
+		if (pathValue == "0") {
+			pathNotSet();
+		}
+		// add an else if to check if the path is valid
+	} else
+	{
+		ConfigINI->Write("path", "0");
+		ConfigINI->Flush();
+		delete ConfigINI;
+		firstBoot();
+	}
 }

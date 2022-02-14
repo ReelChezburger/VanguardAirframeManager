@@ -1,5 +1,11 @@
 #pragma once
 #include <wx/wx.h>
+#include <wx/stdpaths.h>
+#include <wx/config.h>
+#include <wx/confbase.h>
+#include <wx/fileconf.h>
+#include <wx/file.h>
+#include <wx/dir.h>
 
 class cMain : public wxFrame
 {
@@ -34,5 +40,15 @@ public:
 	wxPanel* importPanel = nullptr;
 	wxStaticText* importTitle = nullptr;
 	wxButton* importButton = nullptr;
+
+	// Configuration
+	wxString configDir = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "Vanguard Airframe Manager";
+	wxString configPath = configDir + wxFileName::GetPathSeparator() + "VAMConfig.ini";
+
+	void firstBoot();
+
+	void readConfig();
+	void pathNotSet();
+	wxPathList xPlanePath;
 };
 
