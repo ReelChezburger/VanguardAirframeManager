@@ -86,9 +86,6 @@ cMain::cMain() : wxFrame(nullptr, wxID_ANY, "Vanguard Airframe Manager")
 	verticalSizer->Add(horizontalSizer, 3, wxEXPAND | wxBOTTOM | wxLEFT | wxRIGHT, 10);
 
 	this->SetSizerAndFit(verticalSizer);
-
-	//checks config file
-	readConfig();
 }
 
 cMain::~cMain()
@@ -121,6 +118,7 @@ void cMain::readConfig()
 			pathNotSet();
 		}
 		// add an else if to check if the path is valid
+		delete ConfigINI;
 	} else
 	{
 		ConfigINI->Write("path", "0");
