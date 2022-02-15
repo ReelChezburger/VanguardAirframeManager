@@ -48,11 +48,18 @@ public:
 	wxString configDir = wxStandardPaths::Get().GetUserConfigDir() + wxFileName::GetPathSeparator() + "Vanguard Airframe Manager";
 	wxString configPath = configDir + wxFileName::GetPathSeparator() + "VAMConfig.ini";
 
-	void browseForXPlane(wxCommandEvent& event);
-
 	void firstBoot();
 	void pathNotSet();
 	void pathNotFound();
+	void airframeNotSet();
+
+	wxArrayString splitString(wxString s, wxChar del);
+	wxArrayString splitString(wxString s, wxString del);
+
+	void browseForXPlane(wxCommandEvent& event);
+	void exportToZIP(wxCommandEvent& event);
+	wxString getAirframeID(wxString airframeToCheck, wxString airframeLine);
+	wxString getAirframeData(wxString airframeID, wxString airframeLine);
 
 	void readConfig();
 	void writeConfig(wxString writeKey, wxString writeValue);
